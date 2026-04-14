@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Triips - Booking Confirmed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --canopy-deep: #224500;
+  --canopy-lime: #A8F06B;
+  --canopy-parchment: #FAF8F4;
+  --canopy-forest: #152E00;
+  --canopy-body: #666666;
+  --canopy-labels: #999999;
+  --canopy-indigo: #5046F5;
+
+  --triips-blue: var(--canopy-indigo);
+  --triips-surface: var(--canopy-parchment);
+  --triips-text: var(--canopy-body);
+  --triips-text-muted: var(--canopy-labels);
+  --triips-border: color-mix(in srgb, var(--canopy-labels) 45%, var(--canopy-parchment));
+  --hero-capsule-bg: color-mix(in srgb, var(--canopy-lime) 34%, rgba(255,255,255,0.78));
+
+  --button-border-radius: 25px;
+  --global-border-radius: 16px;
+
+  --font-nav: Inter, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, 'BlinkMacSystemFont', sans-serif;
+
+  --primary: var(--triips-blue);
+  --primary-light: #eef0ff;
+  --secondary: #38d996;
+  --text: var(--triips-text);
+  --text-secondary: var(--triips-text-muted);
+  --bg: #ffffff;
+  --bg-page: var(--triips-surface);
+  --border: var(--triips-border);
+  --radius: var(--global-border-radius);
+  --radius-sm: 8px;
+  --radius-btn: var(--button-border-radius);
+  --font: var(--font-body);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg-page);
+  color: var(--text);
+  line-height: 1.5;
+  max-width: 393px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HEADER (identical to index.html) ── */
+.header {
+  background: var(--hero-capsule-bg);
+  padding: 6px 0 8px;
+  position: sticky;
+  top: 0;
+  z-index: 99998;
+}
+
+.nav-pill {
+  margin: 0 16px;
+  background-color: var(--canopy-forest);
+  border-radius: 9999px;
+  height: 54px;
+  font-family: var(--font-nav);
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  display: grid;
+  grid-template-columns: 54px 1fr 54px;
+  align-items: center;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  color: var(--canopy-lime);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.back-btn svg { width: 22px; height: 22px; }
+
+.logo-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--canopy-lime);
+  letter-spacing: -0.01em;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hamburger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--canopy-lime);
+  border-radius: 1px;
+}
+
+/* ── FLIGHT CARD (same as index) ── */
+.flight-summary {
+  background: #ffffff;
+  border: 1px solid var(--triips-border);
+  border-radius: var(--global-border-radius);
+  padding: 10px 14px;
+  margin: 6px 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.flight-route-row { display: flex; align-items: center; gap: 6px; }
+.flight-city { font-size: 14px; font-weight: 700; color: var(--text); white-space: nowrap; }
+.flight-code { font-size: 10px; font-weight: 500; color: var(--text-secondary); }
+.flight-arrow { flex-shrink: 0; color: var(--text-secondary); }
+.flight-arrow svg { width: 14px; height: 14px; }
+.flight-dates { font-size: 11px; font-weight: 400; color: var(--text-secondary); margin-top: 2px; }
+.flight-price-block { text-align: right; flex-shrink: 0; }
+.flight-price { font-size: 17px; font-weight: 700; color: var(--secondary); }
+.flight-price-original { font-size: 12px; font-weight: 400; color: var(--text-secondary); text-decoration: line-through; margin-right: 2px; }
+.flight-price-label { font-size: 10px; font-weight: 500; color: var(--text-secondary); display: block; }
+
+/* ── CONFIRMATION BODY ── */
+.confirm-container {
+  padding: 16px 16px 32px;
+}
+
+.success-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.success-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--canopy-lime);
+  color: var(--canopy-forest);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.success-icon svg { width: 26px; height: 26px; }
+
+.success-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--canopy-forest);
+  letter-spacing: -0.01em;
+}
+
+.success-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.ref-chip {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 12px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.detail-section {
+  margin-top: 18px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+
+.detail-section h3 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--canopy-forest);
+  margin-bottom: 10px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.detail-row:last-child { border-bottom: none; }
+
+.detail-label { color: var(--text-secondary); font-weight: 500; }
+.detail-value { color: var(--text); font-weight: 600; text-align: right; word-break: break-word; }
+
+.edit-link {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  padding: 10px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font);
+  text-decoration: underline;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+
+.edit-link:hover { color: var(--primary); }
+</style>
+</head>
+<body>
+
+<!-- HEADER (unchanged) -->
+<div class="header">
+  <div class="nav-pill">
+    <button class="back-btn" onclick="history.back()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="logo-wrap">
+      <span class="logo">Triips</span>
+    </div>
+    <button class="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <div class="flight-summary">
+    <div class="flight-info">
+      <div class="flight-route-row">
+        <span class="flight-city" id="display-from">Toronto</span>
+        <span class="flight-code" id="display-from-code">(YYZ)</span>
+        <span class="flight-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </span>
+        <span class="flight-city" id="display-to">Barcelona</span>
+        <span class="flight-code" id="display-to-code">(BCN)</span>
+      </div>
+      <div class="flight-dates" id="display-dates">Jun 15 &ndash; Jun 29, 2026</div>
+    </div>
+    <div class="flight-price-block">
+      <div>
+        <span class="flight-price-original" id="display-price-original">$749</span>
+        <span class="flight-price" id="display-price">$487</span>
+      </div>
+      <span class="flight-price-label" id="display-price-label">per person</span>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="confirm-container">
+
+  <div class="success-card">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    <div class="success-title">Booking Confirmed</div>
+    <div class="success-sub">A receipt has been sent to your email.</div>
+    <div class="ref-chip" id="ref-chip">REF TRP-000000</div>
+  </div>
+
+  <div class="detail-section">
+    <h3>Trip</h3>
+    <div class="detail-row"><span class="detail-label">Route</span><span class="detail-value" id="sum-route">Toronto → Barcelona</span></div>
+    <div class="detail-row"><span class="detail-label">Dates</span><span class="detail-value" id="sum-dates">Jun 15 – Jun 29, 2026</span></div>
+    <div class="detail-row"><span class="detail-label">Total</span><span class="detail-value" id="sum-price">$487</span></div>
+  </div>
+
+  <div class="detail-section">
+    <h3>Passenger</h3>
+    <div class="detail-row"><span class="detail-label">Name</span><span class="detail-value" id="sum-name">—</span></div>
+    <div class="detail-row"><span class="detail-label">Date of birth</span><span class="detail-value" id="sum-dob">—</span></div>
+    <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value" id="sum-email">—</span></div>
+    <div class="detail-row"><span class="detail-label">Phone</span><span class="detail-value" id="sum-phone">—</span></div>
+    <div class="detail-row"><span class="detail-label">Traveling</span><span class="detail-value">1 adult</span></div>
+  </div>
+
+  <div class="detail-section">
+    <h3>Payment</h3>
+    <div class="detail-row"><span class="detail-label">Card</span><span class="detail-value" id="sum-card">•••• ——</span></div>
+    <div class="detail-row"><span class="detail-label">Billing</span><span class="detail-value" id="sum-billing">—</span></div>
+    <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value" style="color:var(--secondary)">Paid</span></div>
+  </div>
+
+  <button class="edit-link" onclick="window.location.href='index.html'">Edit information</button>
+</div>
+
+<script>
+(function() {
+  const flight = JSON.parse(localStorage.getItem('triips_flight') || '{}');
+  const pax = JSON.parse(localStorage.getItem('triips_passenger') || '{}');
+
+  const from = flight.from || 'Toronto';
+  const fromCode = flight.fromCode || 'YYZ';
+  const to = flight.to || 'Barcelona';
+  const toCode = flight.toCode || 'BCN';
+  const dates = flight.dates || 'Jun 15 – Jun 29, 2026';
+  const price = flight.price || '$487';
+  const priceOriginal = flight.priceOriginal || '';
+  const priceLabel = flight.priceLabel || '';
+
+  // Header card
+  document.getElementById('display-from').textContent = from;
+  document.getElementById('display-from-code').textContent = '(' + fromCode + ')';
+  document.getElementById('display-to').textContent = to;
+  document.getElementById('display-to-code').textContent = '(' + toCode + ')';
+  document.getElementById('display-dates').textContent = dates;
+  document.getElementById('display-price').textContent = price;
+  const origEl = document.getElementById('display-price-original');
+  origEl.textContent = priceOriginal;
+  origEl.style.display = priceOriginal ? '' : 'none';
+  const labelEl = document.getElementById('display-price-label');
+  labelEl.textContent = priceLabel;
+  labelEl.style.display = priceLabel ? '' : 'none';
+
+  // Trip summary
+  document.getElementById('sum-route').textContent = from + ' → ' + to;
+  document.getElementById('sum-dates').textContent = dates;
+  document.getElementById('sum-price').textContent = price;
+
+  // Passenger summary
+  const fullName = [pax.firstName, pax.middleName, pax.lastName].filter(Boolean).join(' ') || '—';
+  document.getElementById('sum-name').textContent = fullName;
+  const dob = (pax.dobMonth && pax.dobDay && pax.dobYear) ? (pax.dobMonth + ' ' + pax.dobDay + ', ' + pax.dobYear) : '—';
+  document.getElementById('sum-dob').textContent = dob;
+  document.getElementById('sum-email').textContent = pax.email || '—';
+  document.getElementById('sum-phone').textContent = pax.phone || '—';
+
+  // Payment summary
+  document.getElementById('sum-card').textContent = pax.cardLast4 ? ('•••• ' + pax.cardLast4) : '•••• ——';
+  const billing = [pax.city, pax.region, pax.country].filter(Boolean).join(', ') || '—';
+  document.getElementById('sum-billing').textContent = billing;
+
+  // Booking ref (deterministic from name + dates so it's stable on reload)
+  const seed = (fullName + dates).split('').reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+  const ref = 'TRP-' + String(seed % 1000000).padStart(6, '0');
+  document.getElementById('ref-chip').textContent = 'REF ' + ref;
+})();
+</script>
+</body>
+</html>

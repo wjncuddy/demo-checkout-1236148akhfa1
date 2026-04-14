@@ -678,7 +678,7 @@ body {
     </div>
   </div>
 
-  <button class="confirm-btn" type="button">Confirm Booking</button>
+  <button class="confirm-btn" type="button" id="confirmBtn">Confirm Booking</button>
 
   <!-- Hidden edit trigger: looks like footer text, triple-tap to activate -->
   <button class="edit-trigger" id="editTrigger">Triips Travel Inc. &middot; Booking ref pending</button>
@@ -837,6 +837,27 @@ body {
     let v = this.value.replace(/\s/g, '').replace(/\D/g, '');
     let formatted = v.match(/.{1,4}/g);
     this.value = formatted ? formatted.join(' ') : '';
+  });
+
+  // Confirm booking → save passenger/payment summary, navigate to confirmation page
+  document.getElementById('confirmBtn').addEventListener('click', function() {
+    const $ = function(sel) { return document.querySelector(sel); };
+    const passenger = {
+      firstName: $('input[placeholder="John"]').value || '',
+      lastName: $('input[placeholder="Smith"]').value || '',
+      middleName: $('input[placeholder="Middle name"]').value || '',
+      dobMonth: $('.dob-row select').value || '',
+      dobDay: $('input[placeholder="DD"]').value || '',
+      dobYear: $('input[placeholder="YYYY"]').value || '',
+      email: $('input[type="email"]').value || '',
+      phone: $('input[type="tel"]').value || '',
+      cardLast4: ($('input[placeholder="0000 0000 0000 0000"]').value.replace(/\s/g, '').slice(-4)) || '',
+      city: $('input[placeholder="Toronto"]').value || '',
+      region: $('input[placeholder="ON"]').value || '',
+      country: $('.section select[name=""], .section select').value || ''
+    };
+    localStorage.setItem('triips_passenger', JSON.stringify(passenger));
+    window.location.href = 'confirmation.html';
   });
 
   // Expiry auto-formatting
