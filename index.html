@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Triips - Complete Your Booking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* ── canopy system — index.html :root block ── */
+  --canopy-deep: #224500;
+  --canopy-lime: #A8F06B;
+  --canopy-parchment: #FAF8F4;
+  --canopy-forest: #152E00;
+  --canopy-body: #666666;
+  --canopy-labels: #999999;
+  --canopy-indigo: #5046F5;
+
+  /* ── triips tokens — index.html :root block ── */
+  --triips-blue: var(--canopy-indigo);             /* #5046F5 — devtools image 9 */
+  --triips-surface: var(--canopy-parchment);       /* #FAF8F4 — devtools image 9 */
+  --triips-text: var(--canopy-body);               /* #666666 — devtools image 9 */
+  --triips-text-muted: var(--canopy-labels);       /* #999999 — devtools image 9 */
+  --triips-border: color-mix(in srgb, var(--canopy-labels) 45%, var(--canopy-parchment));
+  --hero-capsule-bg: color-mix(in srgb, var(--canopy-lime) 34%, rgba(255,255,255,0.78));
+
+  /* ── elementor-kit-12 — post-12.css ── */
+  --e-global-color-primary: #233DFF;
+  --e-global-color-accent: #FFCD24;
+  --e-global-color-light: #F4F6FC;
+  --e-global-color-a62ab36: #FFFFFF;
+  --button-border-radius: 25px;                    /* variables.css, confirmed devtools image 6 */
+  --global-border-radius: 16px;                    /* post-12.css body */
+
+  /* ── typography — post-12.css kit ── */
+  --font-nav: Inter, sans-serif;                   /* devtools image 5: header font-family */
+  --font-body: 'Plus Jakarta Sans', -apple-system, 'BlinkMacSystemFont', sans-serif; /* post-12.css */
+
+  /* ── local aliases ── */
+  --primary: var(--triips-blue);
+  --primary-light: #eef0ff;
+  --secondary: #38d996;
+  --text: var(--triips-text);
+  --text-secondary: var(--triips-text-muted);
+  --bg: #ffffff;
+  --bg-page: var(--triips-surface);
+  --border: var(--triips-border);
+  --border-hard: #d9d9d9;
+  --radius: var(--global-border-radius);
+  --radius-sm: 8px;
+  --radius-btn: var(--button-border-radius);
+  --font: var(--font-body);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg-page);
+  color: var(--text);
+  line-height: 1.5;
+  max-width: 393px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HEADER BAND ──
+   Wraps the floating pill. Sage tint from --hero-capsule-bg.
+   The real site shows the pill floating with 16px margins via position:fixed left:16px right:16px.
+   We use sticky + margin:0 16px for the same visual effect.
+*/
+.header {
+  background: var(--hero-capsule-bg);
+  padding: 6px 0 8px;
+  position: sticky;
+  top: 0;
+  z-index: 99998; /* devtools image 5 */
+}
+
+/* ── NAV PILL ──
+   Source: #triips-header computed styles (devtools image 5)
+   height: 54px
+   left/right: 16px  →  margin: 0 16px for sticky
+   font-family: Inter, sans-serif (devtools image 5)
+   font-weight: 500 (devtools image 5)
+   background: --canopy-forest (#152E00)
+   border-radius: pill (fully rounded)
+   Inner div (devtools image 4 inline style):
+     display:flex; width:100%; max-width:72rem; align-items:center; justify-content:center
+   Adapted as 3-col grid: [chevron] [logo] [hamburger]
+*/
+.nav-pill {
+  margin: 0 16px;
+  background-color: var(--canopy-forest);
+  border-radius: 9999px;
+  height: 54px;             /* devtools image 5 */
+  font-family: var(--font-nav); /* Inter — devtools image 5 */
+  font-weight: 500;         /* devtools image 5 */
+  -webkit-font-smoothing: antialiased; /* devtools image 5 */
+  display: grid;
+  grid-template-columns: 54px 1fr 54px;
+  align-items: center;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  color: var(--canopy-lime);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.back-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.logo-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--canopy-lime);
+  letter-spacing: -0.01em;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hamburger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--canopy-lime);
+  border-radius: 1px;
+}
+
+/* ── FLIGHT CARD ──
+   Sits below the pill on the same sage band.
+   White card on sage background.
+*/
+.flight-summary {
+  background: #ffffff;
+  border: 1px solid var(--triips-border);
+  border-radius: var(--global-border-radius);
+  padding: 10px 14px;
+  margin: 6px 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* Route row: origin -> destination on same horizontal line */
+.flight-route-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.flight-city {
+  font-size: 14px;
+  font-weight: 700;   /* --e-global-typography-primary-font-weight */
+  color: var(--text);
+  letter-spacing: var(--letter-spacing);
+  white-space: nowrap;
+}
+
+.flight-code {
+  font-size: 10px;
+  font-weight: 500;   /* --e-global-typography-accent-font-weight */
+  color: var(--text-secondary);
+}
+
+.flight-arrow {
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+
+.flight-arrow svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Date below the route row */
+.flight-dates {
+  font-size: 11px;
+  font-weight: 400;   /* --e-global-typography-text-font-weight */
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* Price block */
+.flight-price-block {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.flight-price {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--secondary);  /* green from --e-global-color-secondary */
+  letter-spacing: var(--letter-spacing);
+}
+
+.flight-price-original {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  text-decoration: line-through;
+  margin-right: 2px;
+}
+
+.flight-price-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  display: block;
+}
+
+/* ── FORM ──
+   --triips-surface: #FAF8F4 (devtools image 9)
+*/
+.form-container {
+  padding: 0 8px 32px;
+  background: var(--triips-surface);
+}
+
+.section {
+  margin-top: 20px;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.field-row {
+  display: flex;
+  gap: 10px;
+}
+
+.field-row > .field {
+  flex: 1;
+  min-width: 0;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+  letter-spacing: 0.01em;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 11px 12px;
+  font-size: 15px;
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.field input::placeholder {
+  color: #bbb;
+}
+
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23757575' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+.dob-row {
+  display: flex;
+  gap: 8px;
+}
+
+.dob-row > .field {
+  flex: 1;
+  min-width: 0;
+}
+
+.dob-row > .field:first-child {
+  flex: 1.2;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 6px 0 0;
+}
+
+/* Card number formatting */
+.card-row {
+  display: flex;
+  gap: 10px;
+}
+
+.card-row .field:first-child {
+  flex: 2;
+}
+
+.card-row .field:nth-child(2),
+.card-row .field:nth-child(3) {
+  flex: 1;
+}
+
+/* ── CONFIRM BTN ── */
+.confirm-btn {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font);
+  border: none;
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.15s, transform 0.1s;
+  letter-spacing: -0.01em;
+}
+
+.confirm-btn:active {
+  transform: scale(0.98);
+  background: #3344dd;
+}
+
+/* ── INFO NOTE ── */
+.info-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: var(--primary-light);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  font-size: 12px;
+  color: var(--primary);
+  line-height: 1.45;
+}
+
+.info-note svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── EDIT MODE ── */
+.edit-trigger {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 16px;
+  font-size: 11px;
+  color: #ccc;
+  background: none;
+  border: none;
+  font-family: var(--font);
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+  letter-spacing: 0.02em;
+}
+
+.edit-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.edit-overlay.active {
+  display: flex;
+}
+
+.edit-sheet {
+  background: var(--bg);
+  width: 100%;
+  max-width: 393px;
+  border-radius: 20px 20px 0 0;
+  padding: 20px 16px 32px;
+  max-height: 85dvh;
+  overflow-y: auto;
+}
+
+.edit-sheet-handle {
+  width: 36px;
+  height: 4px;
+  background: var(--border-hard);
+  border-radius: 2px;
+  margin: 0 auto 16px;
+}
+
+.edit-sheet h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.edit-sheet .field {
+  margin-bottom: 14px;
+}
+
+.edit-sheet .field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+  display: block;
+}
+
+.edit-sheet .field input {
+  width: 100%;
+  padding: 11px 12px;
+  font-size: 15px;
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  outline: none;
+}
+
+.edit-sheet .field input:focus {
+  border-color: var(--primary);
+}
+
+.edit-save-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: var(--secondary);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--font);
+  border: none;
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.edit-cancel-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: none;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font);
+  border: none;
+  cursor: pointer;
+  margin-top: 4px;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="nav-pill">
+    <button class="back-btn" onclick="history.back()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="logo-wrap">
+      <span class="logo">Triips</span>
+    </div>
+    <button class="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <div class="flight-summary">
+    <div class="flight-info">
+      <div class="flight-route-row">
+        <span class="flight-city" id="display-from">Toronto</span>
+        <span class="flight-code" id="display-from-code">(YYZ)</span>
+        <span class="flight-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </span>
+        <span class="flight-city" id="display-to">Barcelona</span>
+        <span class="flight-code" id="display-to-code">(BCN)</span>
+      </div>
+      <div class="flight-dates" id="display-dates">Jun 15 &ndash; Jun 29, 2026</div>
+    </div>
+    <div class="flight-price-block">
+      <div>
+        <span class="flight-price-original" id="display-price-original">$749</span>
+        <span class="flight-price" id="display-price">$487</span>
+      </div>
+      <span class="flight-price-label" id="display-price-label">per person</span>
+    </div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-container">
+
+  <!-- Passenger Info -->
+  <div class="section">
+    <div class="section-title">Passenger Details</div>
+    <div class="info-note">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      Names must match your government-issued ID exactly.
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>First name</label>
+        <input type="text" placeholder="John">
+      </div>
+      <div class="field">
+        <label>Last name</label>
+        <input type="text" placeholder="Smith">
+      </div>
+    </div>
+    <div class="field">
+      <label>Middle name (optional)</label>
+      <input type="text" placeholder="Middle name">
+    </div>
+    <div class="section-title" style="margin-top:4px">Date of Birth</div>
+    <div class="dob-row">
+      <div class="field">
+        <label>Month</label>
+        <select>
+          <option value="" disabled selected>Month</option>
+          <option>January</option><option>February</option><option>March</option>
+          <option>April</option><option>May</option><option>June</option>
+          <option>July</option><option>August</option><option>September</option>
+          <option>October</option><option>November</option><option>December</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Day</label>
+        <input type="text" inputmode="numeric" placeholder="DD" maxlength="2">
+      </div>
+      <div class="field">
+        <label>Year</label>
+        <input type="text" inputmode="numeric" placeholder="YYYY" maxlength="4">
+      </div>
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" placeholder="you@email.com">
+    </div>
+    <div class="field">
+      <label>Phone number</label>
+      <input type="tel" placeholder="+1 (555) 000-0000">
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Payment -->
+  <div class="section">
+    <div class="section-title">Payment Information</div>
+    <div class="field">
+      <label>Name on card</label>
+      <input type="text" placeholder="John Smith">
+    </div>
+    <div class="field">
+      <label>Card number</label>
+      <input type="text" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19">
+    </div>
+    <div class="card-row">
+      <div class="field">
+        <label>Expiry</label>
+        <input type="text" inputmode="numeric" placeholder="MM / YY" maxlength="7">
+      </div>
+      <div class="field">
+        <label>CVV</label>
+        <input type="text" inputmode="numeric" placeholder="123" maxlength="4">
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Billing Address -->
+  <div class="section">
+    <div class="section-title">Billing Address</div>
+    <div class="field">
+      <label>Street address</label>
+      <input type="text" placeholder="123 Main St">
+    </div>
+    <div class="field">
+      <label>Apt / Suite (optional)</label>
+      <input type="text" placeholder="Apt 4B">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>City</label>
+        <input type="text" placeholder="Toronto">
+      </div>
+      <div class="field">
+        <label>Province / State</label>
+        <input type="text" placeholder="ON">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Postal / ZIP code</label>
+        <input type="text" placeholder="M5V 1A1">
+      </div>
+      <div class="field">
+        <label>Country</label>
+        <select>
+          <option value="CA" selected>Canada</option>
+          <option value="US">United States</option>
+          <option value="GB">United Kingdom</option>
+          <option value="AU">Australia</option>
+          <option value="FR">France</option>
+          <option value="DE">Germany</option>
+          <option value="ES">Spain</option>
+          <option value="IT">Italy</option>
+          <option value="JP">Japan</option>
+          <option value="OTHER">Other</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button class="confirm-btn" type="button">Confirm Booking</button>
+
+  <!-- Hidden edit trigger: looks like footer text, triple-tap to activate -->
+  <button class="edit-trigger" id="editTrigger">Triips Travel Inc. &middot; Booking ref pending</button>
+</div>
+
+<!-- Edit Sheet -->
+<div class="edit-overlay" id="editOverlay">
+  <div class="edit-sheet">
+    <div class="edit-sheet-handle"></div>
+    <h3>Edit Flight Details</h3>
+    <div class="field-row">
+      <div class="field">
+        <label>From (city)</label>
+        <input type="text" id="edit-from" value="Toronto">
+      </div>
+      <div class="field">
+        <label>Code</label>
+        <input type="text" id="edit-from-code" value="YYZ" maxlength="3" style="text-transform:uppercase">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>To (city)</label>
+        <input type="text" id="edit-to" value="Barcelona">
+      </div>
+      <div class="field">
+        <label>Code</label>
+        <input type="text" id="edit-to-code" value="BCN" maxlength="3" style="text-transform:uppercase">
+      </div>
+    </div>
+    <div class="field">
+      <label>Dates</label>
+      <input type="text" id="edit-dates" value="Jun 15 – Jun 29, 2026">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Price</label>
+        <input type="text" id="edit-price" value="$487">
+      </div>
+      <div class="field">
+        <label>Original price (blank to hide)</label>
+        <input type="text" id="edit-price-original" value="$749">
+      </div>
+    </div>
+    <div class="field">
+      <label>Price label (blank to hide)</label>
+      <input type="text" id="edit-price-label" value="per person">
+    </div>
+    <button class="edit-save-btn" id="editSave">Save Changes</button>
+    <button class="edit-cancel-btn" id="editCancel">Cancel</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  const STORAGE_KEY = 'triips_flight';
+
+  const defaults = {
+    from: 'Toronto', fromCode: 'YYZ',
+    to: 'Barcelona', toCode: 'BCN',
+    dates: 'Jun 15 \u2013 Jun 29, 2026',
+    price: '$487',
+    priceOriginal: '$749',
+    priceLabel: 'per person'
+  };
+
+  function load() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? { ...defaults, ...JSON.parse(saved) } : { ...defaults };
+    } catch { return { ...defaults }; }
+  }
+
+  function save(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  function render(data) {
+    document.getElementById('display-from').textContent = data.from;
+    document.getElementById('display-from-code').textContent = '(' + data.fromCode + ')';
+    document.getElementById('display-to').textContent = data.to;
+    document.getElementById('display-to-code').textContent = '(' + data.toCode + ')';
+    document.getElementById('display-dates').textContent = data.dates;
+    document.getElementById('display-price').textContent = data.price;
+    var origEl = document.getElementById('display-price-original');
+    origEl.textContent = data.priceOriginal || '';
+    origEl.style.display = data.priceOriginal ? '' : 'none';
+    var labelEl = document.getElementById('display-price-label');
+    labelEl.textContent = data.priceLabel || '';
+    labelEl.style.display = data.priceLabel ? '' : 'none';
+  }
+
+  function populateEditor(data) {
+    document.getElementById('edit-from').value = data.from;
+    document.getElementById('edit-from-code').value = data.fromCode;
+    document.getElementById('edit-to').value = data.to;
+    document.getElementById('edit-to-code').value = data.toCode;
+    document.getElementById('edit-dates').value = data.dates;
+    document.getElementById('edit-price').value = data.price;
+    document.getElementById('edit-price-original').value = data.priceOriginal || '';
+    document.getElementById('edit-price-label').value = data.priceLabel || '';
+  }
+
+  // Init
+  const data = load();
+  render(data);
+
+  // Edit trigger: triple-tap the footer text
+  let tapCount = 0;
+  let tapTimer = null;
+  document.getElementById('editTrigger').addEventListener('click', function() {
+    tapCount++;
+    if (tapCount === 3) {
+      tapCount = 0;
+      clearTimeout(tapTimer);
+      const current = load();
+      populateEditor(current);
+      document.getElementById('editOverlay').classList.add('active');
+    } else {
+      clearTimeout(tapTimer);
+      tapTimer = setTimeout(function() { tapCount = 0; }, 600);
+    }
+  });
+
+  // Save edits
+  document.getElementById('editSave').addEventListener('click', function() {
+    const updated = {
+      from: document.getElementById('edit-from').value,
+      fromCode: document.getElementById('edit-from-code').value.toUpperCase(),
+      to: document.getElementById('edit-to').value,
+      toCode: document.getElementById('edit-to-code').value.toUpperCase(),
+      dates: document.getElementById('edit-dates').value,
+      price: document.getElementById('edit-price').value,
+      priceOriginal: document.getElementById('edit-price-original').value,
+      priceLabel: document.getElementById('edit-price-label').value
+    };
+    save(updated);
+    render(updated);
+    document.getElementById('editOverlay').classList.remove('active');
+  });
+
+  // Cancel
+  document.getElementById('editCancel').addEventListener('click', function() {
+    document.getElementById('editOverlay').classList.remove('active');
+  });
+
+  // Close overlay on backdrop tap
+  document.getElementById('editOverlay').addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.classList.remove('active');
+    }
+  });
+
+  // Card number auto-spacing
+  document.querySelector('input[placeholder="0000 0000 0000 0000"]').addEventListener('input', function() {
+    let v = this.value.replace(/\s/g, '').replace(/\D/g, '');
+    let formatted = v.match(/.{1,4}/g);
+    this.value = formatted ? formatted.join(' ') : '';
+  });
+
+  // Expiry auto-formatting
+  document.querySelector('input[placeholder="MM / YY"]').addEventListener('input', function() {
+    let v = this.value.replace(/\s/g, '').replace(/\//g, '').replace(/\D/g, '');
+    if (v.length >= 2) {
+      this.value = v.substring(0, 2) + ' / ' + v.substring(2, 4);
+    } else {
+      this.value = v;
+    }
+  });
+})();
+</script>
+</body>
+</html>
